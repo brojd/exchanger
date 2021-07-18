@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import rates from './slices/rates';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    rates,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
