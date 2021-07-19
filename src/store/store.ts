@@ -1,11 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
-import rates from './slices/rates';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { fxApi } from 'services/api/fx';
+import accounts from './slices/accounts';
+import exchange from './slices/exchange';
 
 export const store = configureStore({
   reducer: {
-    rates,
+    accounts,
+    exchange,
+    [fxApi.reducerPath]: fxApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(fxApi.middleware),
 });
+
+setupListeners(store.dispatch);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
