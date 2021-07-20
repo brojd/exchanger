@@ -1,7 +1,9 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import numeral from 'numeral';
+import { exchange } from 'store/shared/actions';
 
 export interface AccountsState {
-  accounts: { id: string; currency: string; balance: number }[];
+  accounts: { id: string; currency: string; balance: number | null }[];
 }
 
 export const initialState: AccountsState = {
@@ -19,7 +21,7 @@ export const initialState: AccountsState = {
     {
       id: '3',
       currency: 'GBP',
-      balance: 444.33,
+      balance: 144.33,
     },
   ],
 };
@@ -27,31 +29,35 @@ export const initialState: AccountsState = {
 export const accountsSlice = createSlice({
   name: 'accounts',
   initialState,
-  reducers: {
-    exchange: (
-      state,
-      {
-        payload: { currencyFrom, currencyTo, value },
-      }: PayloadAction<{
-        currencyFrom: string;
-        currencyTo: string;
-        value: number;
-      }>
-    ) => ({
-      ...state,
-      accounts: state.accounts.map((account) => ({
-        ...account,
-        balance:
-          account.currency === currencyFrom
-            ? account.balance - value
-            : account.currency === currencyTo
-            ? account.balance + value
-            : account.balance,
-      })),
-    }),
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(
+      exchange,
+      (
+        state,
+        { payload: { currencyFrom, currencyTo, valueFrom, valueTo } }
+      ) => {
+        console.log('accountsss', JSON.stringify(state));
+        console.log({
+          currencyFrom,
+          currencyTo,
+        });
+        state.accounts = state.accounts.map((account) => ({
+          ...account,
+          balance:
+            account.currency.toLowerCase() === currencyFrom.toLowerCase()
+              ? numeral(account.balance)
+                  .subtract(numeral(valueFrom).value())
+                  .value()
+              : account.currency.toLowerCase() === currencyTo.toLowerCase()
+              ? numeral(account.balance)
+                  .add(numeral(valueTo).value())
+                  .value()
+              : account.balance,
+        }));
+      }
+    );
   },
 });
-
-export const { exchange } = accountsSlice.actions;
 
 export default accountsSlice.reducer;

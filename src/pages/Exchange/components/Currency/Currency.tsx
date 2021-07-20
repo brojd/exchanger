@@ -1,5 +1,6 @@
 import NumberInput from 'components/NumberInput/NumberInput';
 import { useAppDispatch, useAppSelector } from 'hooks/store';
+import numeral from 'numeral';
 import { FC } from 'react';
 import { fxApi } from 'services/api/fx';
 import { selectAccountByCurrency } from 'store/slices/accounts/selectors';
@@ -39,11 +40,6 @@ const Currency: FC<CurrencyProps> = ({ isCurrencyTo }) => {
       );
   };
 
-  console.log({
-    accountFrom,
-    rate,
-  });
-
   return accountFrom && currentAccount && rate ? (
     <div>
       <div>
@@ -54,11 +50,12 @@ const Currency: FC<CurrencyProps> = ({ isCurrencyTo }) => {
         {currentAccount.balance}
       </div>
       <div>
-        MAX:{' '}
-        {!isCurrencyTo ? currentAccount.balance : accountFrom.balance * rate}
         <NumberInput
           max={
-            !isCurrencyTo ? currentAccount.balance : accountFrom.balance * rate
+            (!isCurrencyTo
+              ? currentAccount.balance
+              : numeral(accountFrom.balance || 0).multiply(rate).value()) ||
+            undefined
           }
           onChange={onChange}
           value={isCurrencyTo ? valueTo : valueFrom}

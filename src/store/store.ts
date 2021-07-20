@@ -6,8 +6,8 @@ import exchange from './slices/exchange';
 
 export const store = configureStore({
   reducer: {
-    accounts,
     exchange,
+    accounts,
     [fxApi.reducerPath]: fxApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

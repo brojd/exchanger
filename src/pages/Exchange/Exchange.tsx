@@ -3,6 +3,7 @@ import { useGetRateQuery } from 'services/api/fx';
 import { selectCurrencyFromAndTo } from 'store/slices/exchange/selectors';
 import Currency from './components/Currency/Currency';
 import CurrentRate from './CurrentRate/CurrentRate';
+import ExchangeButton from './ExchangeButton/ExchangeButton';
 
 const Exchange = () => {
   const currencies = useAppSelector(selectCurrencyFromAndTo);
@@ -16,6 +17,7 @@ const Exchange = () => {
       <CurrentRate />
       <Currency />
       <Currency isCurrencyTo />
+      <ExchangeButton />
     </>
   );
 };

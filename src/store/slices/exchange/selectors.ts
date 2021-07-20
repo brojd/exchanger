@@ -1,7 +1,9 @@
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
+import numeral from 'numeral';
 import { RootState } from 'store/store';
+import { selectAccountByCurrency } from '../accounts/selectors';
 
-const selectExchange = (state: RootState) => state.exchange;
+export const selectExchange = (state: RootState) => state.exchange;
 
 export const selectCurrencyFromAndTo = createDraftSafeSelector(
   selectExchange,
@@ -17,4 +19,14 @@ export const selectValueFromAndTo = createDraftSafeSelector(
     valueFrom,
     valueTo,
   })
+);
+
+export const isExchangeButtonDisabled = createDraftSafeSelector(
+  selectCurrencyFromAndTo,
+  selectValueFromAndTo,
+  (state) => state,
+  ({ currencyFrom }, { valueFrom }, state) =>
+    (numeral(valueFrom || 0)
+      .subtract(selectAccountByCurrency(state, currencyFrom)?.balance)
+      .value() || 0) > 0 || numeral(valueFrom || 0).value() === 0
 );

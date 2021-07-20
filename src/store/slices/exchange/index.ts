@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import numeral from 'numeral';
+import { exchange } from 'store/shared/actions';
 import { initialState as accountsInitialState } from '../accounts';
 
 export interface ExchangeState {
@@ -48,6 +49,12 @@ export const exchangeSlice = createSlice({
             .format('0.00')
         : '';
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(exchange, (state) => {
+      console.log('noooow');
+      state = initialState;
+    });
   },
 });
 
