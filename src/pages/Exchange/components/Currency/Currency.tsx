@@ -1,3 +1,4 @@
+import { Box, Stat, StatHelpText, StatLabel, Text } from '@chakra-ui/react';
 import NumberInput from 'components/NumberInput/NumberInput';
 import { useAppDispatch, useAppSelector } from 'hooks/store';
 import numeral from 'numeral';
@@ -10,6 +11,7 @@ import {
   selectValueFromAndTo,
 } from 'store/slices/exchange/selectors';
 import { currencyNameToPrefixMap } from 'utils/currency';
+import ChooseCurrency from './ChooseCurrency/ChooseCurrency';
 
 interface CurrencyProps {
   isCurrencyTo?: boolean;
@@ -41,27 +43,33 @@ const Currency: FC<CurrencyProps> = ({ isCurrencyTo }) => {
   };
 
   return accountFrom && currentAccount && rate ? (
-    <div>
-      <div>
-        CURRENCY {isCurrencyTo ? 'TO' : 'FROM'}: {currency}
-      </div>
-      <div>
-        you have: {currencyNameToPrefixMap[currency]}
-        {currentAccount.balance}
-      </div>
-      <div>
+    <Box mb="8" d={{ base: "flex", md: "block" }} justifyContent="space-between" alignItems="center">
+      <Box w="50%">
+        <Stat>
+          <StatLabel color="white">{isCurrencyTo ? 'To' : 'From'}</StatLabel>
+          <ChooseCurrency isCurrencyTo={isCurrencyTo} currency={currency} />
+          <StatHelpText color="white">
+            you have: {currentAccount.balance}
+            {currencyNameToPrefixMap[currency]}
+          </StatHelpText>
+        </Stat>
+      </Box>
+      <Box w="50vw">
+        <Text fontSize="xs" color="whiteAlpha.600">Enter the amount</Text>
         <NumberInput
           max={
             (!isCurrencyTo
               ? currentAccount.balance
-              : numeral(accountFrom.balance || 0).multiply(rate).value()) ||
-            undefined
+              : numeral(accountFrom.balance || 0)
+                  .multiply(rate)
+                  .value()) || undefined
           }
           onChange={onChange}
           value={isCurrencyTo ? valueTo : valueFrom}
+          autoFocus={!isCurrencyTo}
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   ) : null;
 };
 

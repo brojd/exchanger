@@ -22,9 +22,13 @@ export const exchangeSlice = createSlice({
   initialState,
   reducers: {
     changeCurrencyFrom: (state, { payload }: PayloadAction<string>) => {
+      if (payload === state.currencyTo.toLowerCase())
+        state.currencyTo = state.currencyFrom;
       state.currencyFrom = payload;
     },
     changeCurrencyTo: (state, { payload }: PayloadAction<string>) => {
+      if (payload === state.currencyFrom.toLowerCase())
+        state.currencyFrom = state.currencyTo;
       state.currencyTo = payload;
     },
     changeValueFrom: (
@@ -52,8 +56,8 @@ export const exchangeSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(exchange, (state) => {
-      console.log('noooow');
-      state = initialState;
+      state.valueFrom = '';
+      state.valueTo = '';
     });
   },
 });

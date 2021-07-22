@@ -23,6 +23,16 @@ export const initialState: AccountsState = {
       currency: 'GBP',
       balance: 144.33,
     },
+    {
+      id: '4',
+      currency: 'CHF',
+      balance: 524.33,
+    },
+    {
+      id: '5',
+      currency: 'PLN',
+      balance: 1524.33,
+    }
   ],
 };
 
@@ -37,11 +47,6 @@ export const accountsSlice = createSlice({
         state,
         { payload: { currencyFrom, currencyTo, valueFrom, valueTo } }
       ) => {
-        console.log('accountsss', JSON.stringify(state));
-        console.log({
-          currencyFrom,
-          currencyTo,
-        });
         state.accounts = state.accounts.map((account) => ({
           ...account,
           balance:

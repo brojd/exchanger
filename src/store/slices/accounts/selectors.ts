@@ -8,6 +8,11 @@ export const selectAllAccounts = createDraftSafeSelector(
   ({ accounts }) => accounts
 );
 
+export const selectAccountsCurrencies = createDraftSafeSelector(
+  selectAllAccounts,
+  (accounts) => accounts.map(({ currency }) => currency)
+);
+
 export const selectAccountById = createDraftSafeSelector(
   selectAccounts,
   (_: RootState, id: string) => id,

@@ -1,17 +1,11 @@
+import { Box } from '@chakra-ui/react';
 import Exchange from 'pages/Exchange/Exchange';
 
 function App() {
   return (
-    <div>
-      <a href="https://www.freeforexapi.com">
-        <img
-          alt="Free Forex API"
-          src="https://www.freeforexapi.com/images/link.png"
-          height="20"
-        />
-      </a>
+    <Box bgGradient="linear(to-br, blue.400, teal.400)" minH="100vh" px="6">
       <Exchange />
-    </div>
+    </Box>
   );
 }
 

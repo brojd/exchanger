@@ -4,21 +4,30 @@ import {
   NumberInputProps as ChakraNumberInputProps,
   NumberInputField,
   NumberInputFieldProps,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
 } from '@chakra-ui/react';
 
 type NumberInputProps = ChakraNumberInputProps &
-  Pick<NumberInputFieldProps, 'maxLength'>;
+  Pick<NumberInputFieldProps, 'maxLength' | 'autoFocus'>;
 
-const NumberInput: FC<NumberInputProps> = ({ maxLength, ...props }) => (
-  <ChakraNumberInput precision={2} isInvalid={false} min={0} {...props}>
-    <NumberInputField maxLength={maxLength} />
-    <NumberInputStepper>
-      <NumberIncrementStepper />
-      <NumberDecrementStepper />
-    </NumberInputStepper>
+const NumberInput: FC<NumberInputProps> = ({
+  maxLength,
+  autoFocus,
+  ...props
+}) => (
+  <ChakraNumberInput
+    precision={2}
+    isInvalid={false}
+    min={0}
+    size="lg"
+    color="white"
+    variant="unstyled"
+    {...props}
+  >
+    <NumberInputField
+      maxLength={maxLength}
+      autoFocus={autoFocus}
+      fontSize="4xl"
+    />
   </ChakraNumberInput>
 );
 

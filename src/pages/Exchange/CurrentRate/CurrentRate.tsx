@@ -1,3 +1,4 @@
+import { Text } from '@chakra-ui/react';
 import { useAppSelector } from 'hooks/store';
 import { FC } from 'react';
 import { fxApi } from 'services/api/fx';
@@ -6,17 +7,23 @@ import { currencyNameToPrefixMap } from 'utils/currency';
 
 interface CurrentRateProps {}
 
-const CurrentRate: FC<CurrentRateProps> = (props) => {
+const CurrentRate: FC<CurrentRateProps> = () => {
   const currencies = useAppSelector(selectCurrencyFromAndTo);
   const { data } = fxApi.endpoints.getRate.useQueryState(currencies);
   const { currencyFrom, currencyTo } = currencies;
   const rate = data?.[currencies.currencyTo];
 
   return rate ? (
-    <div>
-      {currencyNameToPrefixMap[currencyFrom]}1 = {rate}
+    <Text
+      fontSize={{ base: '2xl', md: '5xl' }}
+      color="white"
+      py="8"
+      textAlign="center"
+      fontWeight="600"
+    >
+      1{currencyNameToPrefixMap[currencyFrom]} = {rate}
       {currencyNameToPrefixMap[currencyTo]}
-    </div>
+    </Text>
   ) : null;
 };
 
