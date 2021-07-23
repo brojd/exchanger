@@ -26,7 +26,6 @@ export const isExchangeButtonDisabled = createDraftSafeSelector(
   selectValueFromAndTo,
   (state) => state,
   ({ currencyFrom }, { valueFrom }, state) =>
-    (numeral(valueFrom || 0)
-      .subtract(selectAccountByCurrency(state, currencyFrom)?.balance)
-      .value() || 0) > 0 || numeral(valueFrom || 0).value() === 0
+    (numeral(valueFrom || 0).value() || 0) >=
+    (selectAccountByCurrency(state, currencyFrom)?.balance || 0)
 );

@@ -10,7 +10,7 @@ export interface ExchangeState {
   valueTo: string;
 }
 
-const initialState: ExchangeState = {
+export const initialState: ExchangeState = {
   currencyFrom: accountsInitialState.accounts[0].currency,
   currencyTo: accountsInitialState.accounts[1].currency,
   valueFrom: '',
